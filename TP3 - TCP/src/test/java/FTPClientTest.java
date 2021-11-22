@@ -7,7 +7,7 @@ class FTPClientTest {
     @Test
     public void givenGreetingClient_whenServerRespondsWhenStarted_thenCorrect() throws IOException {
         FTPClient client = new FTPClient();
-        client.startConnection("127.0.0.1", 6666);
+        client.startConnection("localhost", 6666);
         String response = client.sendMessage("hello server");
 
         System.out.println("Message from client : hello server");
