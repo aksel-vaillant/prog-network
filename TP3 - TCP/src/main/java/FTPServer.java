@@ -12,7 +12,7 @@ public class FTPServer {
     private BufferedReader in;
 
     private String dirFolder;
-    private final String DEFAULT_DIRECTION_FOLDER = "H:\\Home\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\SERVEUR_DIR";
+    private final String DEFAULT_DIRECTION_FOLDER = "C:\\Users\\aksel\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR";
 
     public String getDirFolder() {
         return dirFolder;
@@ -55,7 +55,7 @@ public class FTPServer {
         return cmd;
     }
 
-    /*private void saveFile(File file) throws IOException {
+    private void saveFile(File file) throws IOException {
         DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
         FileOutputStream fos = new FileOutputStream(file);
         byte[] buffer = new byte[4096];
@@ -73,7 +73,7 @@ public class FTPServer {
 
         fos.close();
         dis.close();
-    }*/
+    }
 
     public void sendFile(FileInputStream file) throws IOException {
         DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
@@ -101,17 +101,16 @@ public class FTPServer {
 
             switch (cmd){
                 case "GET_FILE":{
-                    FileInputStream savedFile = new FileInputStream(server.DEFAULT_DIRECTION_FOLDER + "\\" + server.in.readLine());
+                    String nameFile = server.in.readLine();
+                    FileInputStream savedFile = new FileInputStream(server.DEFAULT_DIRECTION_FOLDER + "\\" + nameFile);
                     server.sendFile(savedFile);
-                    System.out.println("yush");
-
-                    //InputStream input=new s.getInputStream();
-
                     break;
                 }
 
                 case "PUT_FILE":{
-
+                    String nameFile = server.in.readLine();
+                    File file = new File(server.DEFAULT_DIRECTION_FOLDER + "\\" + nameFile);
+                    server.saveFile(file);
                     break;
                 }
 
@@ -138,7 +137,7 @@ public class FTPServer {
                     System.exit(1);
                 }
             }
-
+            server.clientSocket = server.serverSocket.accept();
         }
 
     }

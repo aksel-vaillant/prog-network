@@ -7,7 +7,7 @@ public class FTPClient {
     private PrintWriter out;
     private BufferedReader in;
 
-    private final String DEFAULT_DIRECTION_FOLDER = "H:\\Home\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\CLIENT_DIR";
+    private final String DEFAULT_DIRECTION_FOLDER = "C:\\Users\\aksel\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\CLIENT_DIR";
 
     public void startConnection(String name, int port) throws IOException {
         clientSocket = new Socket(name, port);
@@ -42,9 +42,9 @@ public class FTPClient {
         dis.close();
     }
 
-    public void sendFile(String file) throws IOException {
+    public void sendFile(FileInputStream file) throws IOException {
         DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
-        FileInputStream fis = new FileInputStream(file);
+        FileInputStream fis = file;
         byte[] buffer = new byte[4096];
 
         int read;
@@ -88,14 +88,18 @@ public class FTPClient {
                     String file = client.readCommand();
                     client.out.println(file);
                     client.out.flush();
-                    client.saveFile(new File(file));
-
-                    //client.sendFile(file);
+                    client.saveFile(new File(client.DEFAULT_DIRECTION_FOLDER + "\\" + file));
                     break;
                 }
                 // https://heptadecane.medium.com/file-transfer-via-java-sockets-e8d4f30703a5
                 // https://gist.github.com/CarlEkerot/2693246
-                case "PUT_FILE":{
+                case "PUT":{
+                    client.out.println("PUT_FILE");
+                    client.out.flush();
+                    String file =  client.readCommand();
+                    client.out.println(file);
+                    client.out.flush();
+                    client.sendFile(new FileInputStream(client.DEFAULT_DIRECTION_FOLDER + "\\" + file));
 
                     break;
                 }
