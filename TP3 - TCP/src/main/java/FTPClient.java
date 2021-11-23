@@ -22,6 +22,40 @@ public class FTPClient {
         return in.readLine();
     }
 
+    private void saveFile(File file) throws IOException {
+        DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
+        FileOutputStream fos = new FileOutputStream(file);
+        byte[] buffer = new byte[4096];
+
+        int filesize = 15123; // Send file size in separate msg
+        int read = 0;
+        int totalRead = 0;
+        int remaining = filesize;
+        while((read = dis.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
+            totalRead += read;
+            remaining -= read;
+            System.out.println("read " + totalRead + " bytes.");
+            fos.write(buffer, 0, read);
+        }
+
+        fos.close();
+        dis.close();
+    }
+
+    public void sendFile(String file) throws IOException {
+        DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
+        FileInputStream fis = new FileInputStream(file);
+        byte[] buffer = new byte[4096];
+
+        int read;
+        while ((read=fis.read(buffer)) > 0) {
+            dos.write(buffer,0,read);
+        }
+
+        fis.close();
+        dos.close();
+    }
+
     public void stopConnection() throws IOException {
         in.close();
         out.close();
@@ -45,18 +79,22 @@ public class FTPClient {
                 case "LS":{
                     client.out.println("LS_DIR");
                     client.out.flush();
-
                     System.out.println(client.in.readLine());
-
                     break;
                 }
                 case "GET":{
+                    client.out.println("GET_FILE");
+                    client.out.flush();
                     String file = client.readCommand();
-                    DataOutputStream dataOutputStream = new DataOutputStream(new FileOutputStream(file));
+                    client.out.println(file);
+                    client.out.flush();
+                    client.saveFile(new File(file));
 
-
+                    //client.sendFile(file);
                     break;
                 }
+                // https://heptadecane.medium.com/file-transfer-via-java-sockets-e8d4f30703a5
+                // https://gist.github.com/CarlEkerot/2693246
                 case "PUT_FILE":{
 
                     break;

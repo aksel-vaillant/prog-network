@@ -29,14 +29,6 @@ public class FTPServer {
         setDirFolder(DEFAULT_DIRECTION_FOLDER);
     }
 
-    public void start(int port, String dirFolder) throws IOException {
-        serverSocket = new ServerSocket(port);
-        clientSocket = serverSocket.accept();
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        setDirFolder(dirFolder);
-    }
-
     public void stop() throws IOException {
         in.close();
         out.close();
@@ -63,9 +55,41 @@ public class FTPServer {
         return cmd;
     }
 
-    public static void main(String[] args) throws IOException {
-        FileInputStream savedFile;
+    /*private void saveFile(File file) throws IOException {
+        DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
+        FileOutputStream fos = new FileOutputStream(file);
+        byte[] buffer = new byte[4096];
 
+        int filesize = 15123; // Send file size in separate msg
+        int read = 0;
+        int totalRead = 0;
+        int remaining = filesize;
+        while((read = dis.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
+            totalRead += read;
+            remaining -= read;
+            System.out.println("read " + totalRead + " bytes.");
+            fos.write(buffer, 0, read);
+        }
+
+        fos.close();
+        dis.close();
+    }*/
+
+    public void sendFile(FileInputStream file) throws IOException {
+        DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
+        FileInputStream fis = file;
+        byte[] buffer = new byte[4096];
+
+        int read;
+        while ((read=fis.read(buffer)) > 0) {
+            dos.write(buffer,0,read);
+        }
+
+        fis.close();
+        dos.close();
+    }
+
+    public static void main(String[] args) throws IOException {
         FTPServer server=new FTPServer();
         server.start(6666);
 
@@ -77,7 +101,8 @@ public class FTPServer {
 
             switch (cmd){
                 case "GET_FILE":{
-                    savedFile = new FileInputStream(server.DEFAULT_DIRECTION_FOLDER + "\\" + server.readCommand());
+                    FileInputStream savedFile = new FileInputStream(server.DEFAULT_DIRECTION_FOLDER + "\\" + server.in.readLine());
+                    server.sendFile(savedFile);
                     System.out.println("yush");
 
                     //InputStream input=new s.getInputStream();
