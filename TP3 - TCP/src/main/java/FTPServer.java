@@ -12,7 +12,8 @@ public class FTPServer {
     private BufferedReader in;
 
     private String dirFolder;
-    private final String DEFAULT_DIRECTION_FOLDER = "C:\\Users\\aksel\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR";
+    //private final String DEFAULT_DIRECTION_FOLDER = "C:\\Users\\aksel\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR";
+    private final String DEFAULT_DIRECTION_FOLDER = "H:\\Home\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR\\";
 
     public String getDirFolder() {
         return dirFolder;
@@ -71,7 +72,7 @@ public class FTPServer {
             fos.write(buffer, 0, read);
         }
 
-        fos.close();
+        fos.flush();
         dis.close();
     }
 
@@ -80,13 +81,16 @@ public class FTPServer {
         FileInputStream fis = file;
         byte[] buffer = new byte[4096];
 
+        System.out.println("Start sending");
         int read;
         while ((read=fis.read(buffer)) > 0) {
             dos.write(buffer,0,read);
         }
 
         fis.close();
-        dos.close();
+        dos.flush();
+        System.out.println("End sending");
+
     }
 
     public static void main(String[] args) throws IOException {
@@ -97,19 +101,22 @@ public class FTPServer {
 
         while(true){
             // Gestion des 3 commandes et l'arrêt du serveur
+            System.out.println("Attente d'une requête client");
             String cmd = server.in.readLine();
 
             switch (cmd){
                 case "GET_FILE":{
                     String nameFile = server.in.readLine();
-                    FileInputStream savedFile = new FileInputStream(server.DEFAULT_DIRECTION_FOLDER + "\\" + nameFile);
+                    System.out.println("Le client souhaite posséder le fichier... " + nameFile);
+                    FileInputStream savedFile = new FileInputStream(server.DEFAULT_DIRECTION_FOLDER+ nameFile);
                     server.sendFile(savedFile);
+                    System.out.println("Succès de l'envoie du fichier " + nameFile);
                     break;
                 }
 
                 case "PUT_FILE":{
                     String nameFile = server.in.readLine();
-                    File file = new File(server.DEFAULT_DIRECTION_FOLDER + "\\" + nameFile);
+                    File file = new File(server.DEFAULT_DIRECTION_FOLDER + nameFile);
                     server.saveFile(file);
                     break;
                 }
@@ -137,7 +144,6 @@ public class FTPServer {
                     System.exit(1);
                 }
             }
-            server.clientSocket = server.serverSocket.accept();
         }
 
     }

@@ -7,7 +7,8 @@ public class FTPClient {
     private PrintWriter out;
     private BufferedReader in;
 
-    private final String DEFAULT_DIRECTION_FOLDER = "C:\\Users\\aksel\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\CLIENT_DIR";
+    //private final String DEFAULT_DIRECTION_FOLDER = "C:\\Users\\aksel\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\CLIENT_DIR";
+    private final String DEFAULT_DIRECTION_FOLDER = "H:\\Home\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\CLIENT_DIR\\";
 
     public void startConnection(String name, int port) throws IOException {
         clientSocket = new Socket(name, port);
@@ -31,6 +32,7 @@ public class FTPClient {
         int read = 0;
         int totalRead = 0;
         int remaining = filesize;
+        System.out.println("Start");
         while((read = dis.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
             totalRead += read;
             remaining -= read;
@@ -38,8 +40,10 @@ public class FTPClient {
             fos.write(buffer, 0, read);
         }
 
-        fos.close();
+        System.out.println("Soon end");
+        fos.flush();
         dis.close();
+        System.out.println("End");
     }
 
     public void sendFile(FileInputStream file) throws IOException {
@@ -53,7 +57,7 @@ public class FTPClient {
         }
 
         fis.close();
-        dos.close();
+        dos.flush();
     }
 
     public void stopConnection() throws IOException {
@@ -73,6 +77,7 @@ public class FTPClient {
         client.startConnection("localhost", 6666);
 
         while(true){
+            System.out.println("Waiting a command...");
             String cmd = client.readCommand();
 
             switch (cmd){
@@ -87,8 +92,8 @@ public class FTPClient {
                     client.out.flush();
                     String file = client.readCommand();
                     client.out.println(file);
-                    client.out.flush();
-                    client.saveFile(new File(client.DEFAULT_DIRECTION_FOLDER + "\\" + file));
+                    client.saveFile(new File(client.DEFAULT_DIRECTION_FOLDER + file));
+                    System.out.println("Done getting file.");
                     break;
                 }
                 // https://heptadecane.medium.com/file-transfer-via-java-sockets-e8d4f30703a5
@@ -99,11 +104,10 @@ public class FTPClient {
                     String file =  client.readCommand();
                     client.out.println(file);
                     client.out.flush();
-                    client.sendFile(new FileInputStream(client.DEFAULT_DIRECTION_FOLDER + "\\" + file));
+                    client.sendFile(new FileInputStream(client.DEFAULT_DIRECTION_FOLDER + file));
 
                     break;
                 }
-
                 case "STOP":{
                     client.stopConnection();
                     System.out.println("Arrêt de la communication avec le server.");
