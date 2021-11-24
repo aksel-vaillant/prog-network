@@ -2,7 +2,9 @@ import java.awt.event.KeyEvent;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class FTPServer {
@@ -12,8 +14,8 @@ public class FTPServer {
     private BufferedReader in;
 
     private String dirFolder;
-    //private final String DEFAULT_DIRECTION_FOLDER = "C:\\Users\\aksel\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR";
-    private final String DEFAULT_DIRECTION_FOLDER = "H:\\Home\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR\\";
+    private final String DEFAULT_DIRECTION_FOLDER = "C:\\Users\\aksel\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR\\";
+    //private final String DEFAULT_DIRECTION_FOLDER = "H:\\Home\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR\\";
 
     public String getDirFolder() {
         return dirFolder;
@@ -31,32 +33,18 @@ public class FTPServer {
     }
 
     public void stop() throws IOException {
+        System.out.println("Arrêt du serveur et du système.");
         in.close();
         out.close();
         clientSocket.close();
         serverSocket.close();
     }
 
-    public String readCommand() throws IOException {
-        /*String args[] = new String[5];
-        String buffer;
-        int index = 0;
-        while((buffer = scanCmd.nextLine()) != "\n"){
-            args[index] = buffer;
-            index++;
-        }//return args;*/
+    private void saveFile() throws IOException {
+        String nameFile = in.readLine();
+        File file = new File(DEFAULT_DIRECTION_FOLDER + nameFile);
+        System.out.println("Enrengistrement du fichier " + nameFile + " en cours.");
 
-        String cmd = in.readLine();
-        System.out.println(cmd);
-
-        //Scanner scanCmd = new Scanner(System.in);
-        //System.out.print("[" + DEFAULT_DIRECTION_FOLDER + "\\$] ");
-        //return scanCmd.nextLine();
-
-        return cmd;
-    }
-
-    private void saveFile(File file) throws IOException {
         DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
         FileOutputStream fos = new FileOutputStream(file);
         byte[] buffer = new byte[4096];
@@ -66,6 +54,7 @@ public class FTPServer {
         int totalRead = 0;
         int remaining = filesize;
         while(read > 0) {
+            System.out.println(read);
             totalRead += read;
             remaining -= read;
             System.out.println("read " + totalRead + " bytes.");
@@ -73,25 +62,28 @@ public class FTPServer {
             read = dis.read(buffer, 0, Math.min(buffer.length, remaining));
         }
 
-        fos.flush();
+        fos.close();
         dis.close();
+        clientSocket = serverSocket.accept();
+        System.out.println("Succès de l'enrengitrement du fichier.");
     }
 
-    public void sendFile(FileInputStream file) throws IOException {
-        DataOutputStream dos = new DataOutputStream(clientSocket.getOutputStream());
-        FileInputStream fis = file;
-        byte[] buffer = new byte[4096];
+    public void sendFile() throws IOException {
+        String nameFile = in.readLine();
+        System.out.println("Envoie du fichier " + nameFile + " au client.");
 
-        System.out.println("Start sending");
-        int read;
-        while ((read=fis.read(buffer)) > 0) {
-            dos.write(buffer,0,read);
-        }
+        FileInputStream fis = new FileInputStream(DEFAULT_DIRECTION_FOLDER + nameFile);
+        byte[] buffer = new byte[20000];
+        fis.read(buffer, 0 , buffer.length);
 
+        OutputStream out = clientSocket.getOutputStream();
+        out.write(buffer, 0, buffer.length);
+
+        out.close();
         fis.close();
-        dos.flush();
-        System.out.println("End sending");
 
+        //clientSocket = serverSocket.accept();
+        System.out.println("Succès de l'envoie du fichier.");
     }
 
     public static void main(String[] args) throws IOException {
@@ -107,23 +99,14 @@ public class FTPServer {
 
             switch (cmd){
                 case "GET_FILE":{
-                    String nameFile = server.in.readLine();
-                    System.out.println("Le client souhaite posséder le fichier... " + nameFile);
-                    FileInputStream savedFile = new FileInputStream(server.DEFAULT_DIRECTION_FOLDER+ nameFile);
-                    server.sendFile(savedFile);
-                    System.out.println("Succès de l'envoie du fichier " + nameFile);
-                    break;
+                    server.sendFile();  break;
                 }
 
                 case "PUT_FILE":{
-                    String nameFile = server.in.readLine();
-                    File file = new File(server.DEFAULT_DIRECTION_FOLDER + nameFile);
-                    server.saveFile(file);
-                    server.out.flush();
-                    break;
+                    server.saveFile();  break;
                 }
-
                 case "LS_DIR":{
+                    System.out.println("Affichage des fichiers dans la racine server.");
                     String [] pathnames;
                     File readerPath = new File(server.getDirFolder());
                     pathnames = readerPath.list();
@@ -142,7 +125,6 @@ public class FTPServer {
 
                 case "STOP":{
                     server.stop();
-                    System.out.println("Arrêt du serveur et du système.");
                     System.exit(1);
                 }
             }
