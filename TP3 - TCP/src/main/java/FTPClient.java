@@ -66,7 +66,7 @@ public class FTPClient {
         clientSocket.close();
     }
 
-    public String readCommand(){
+    public String readCommand() throws IOException {
         Scanner scanCmd = new Scanner(System.in);
         System.out.print("[" + DEFAULT_DIRECTION_FOLDER + "\\$] ");
         return scanCmd.nextLine();
@@ -85,6 +85,7 @@ public class FTPClient {
                     client.out.println("LS_DIR");
                     client.out.flush();
                     System.out.println(client.in.readLine());
+
                     break;
                 }
                 case "GET":{
@@ -96,8 +97,6 @@ public class FTPClient {
                     System.out.println("Done getting file.");
                     break;
                 }
-                // https://heptadecane.medium.com/file-transfer-via-java-sockets-e8d4f30703a5
-                // https://gist.github.com/CarlEkerot/2693246
                 case "PUT":{
                     client.out.println("PUT_FILE");
                     client.out.flush();
@@ -105,7 +104,6 @@ public class FTPClient {
                     client.out.println(file);
                     client.out.flush();
                     client.sendFile(new FileInputStream(client.DEFAULT_DIRECTION_FOLDER + file));
-
                     break;
                 }
                 case "STOP":{

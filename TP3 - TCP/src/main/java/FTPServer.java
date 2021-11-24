@@ -62,14 +62,15 @@ public class FTPServer {
         byte[] buffer = new byte[4096];
 
         int filesize = 15123; // Send file size in separate msg
-        int read = 0;
+        int read = 1;
         int totalRead = 0;
         int remaining = filesize;
-        while((read = dis.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
+        while(read > 0) {
             totalRead += read;
             remaining -= read;
             System.out.println("read " + totalRead + " bytes.");
             fos.write(buffer, 0, read);
+            read = dis.read(buffer, 0, Math.min(buffer.length, remaining));
         }
 
         fos.flush();
@@ -118,6 +119,7 @@ public class FTPServer {
                     String nameFile = server.in.readLine();
                     File file = new File(server.DEFAULT_DIRECTION_FOLDER + nameFile);
                     server.saveFile(file);
+                    server.out.flush();
                     break;
                 }
 
