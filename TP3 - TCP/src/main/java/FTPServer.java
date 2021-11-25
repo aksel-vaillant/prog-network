@@ -14,8 +14,8 @@ public class FTPServer {
     private BufferedReader in;
 
     private String dirFolder;
-    private final String DEFAULT_DIRECTION_FOLDER = "C:\\Users\\aksel\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR\\";
-    //private final String DEFAULT_DIRECTION_FOLDER = "H:\\Home\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR\\";
+    //private final String DEFAULT_DIRECTION_FOLDER = "C:\\Users\\aksel\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR\\";
+    private final String DEFAULT_DIRECTION_FOLDER = "H:\\Home\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR\\";
 
     public String getDirFolder() {
         return dirFolder;
@@ -41,49 +41,65 @@ public class FTPServer {
     }
 
     private void saveFile() throws IOException {
+        System.out.println("Réception d'un fichier en prevenance du serveur.");
         String nameFile = in.readLine();
+
+        // Création du nom du fichier
         File file = new File(DEFAULT_DIRECTION_FOLDER + nameFile);
+
         System.out.println("Enrengistrement du fichier " + nameFile + " en cours.");
 
-        DataInputStream dis = new DataInputStream(clientSocket.getInputStream());
-        FileOutputStream fos = new FileOutputStream(file);
-        byte[] buffer = new byte[4096];
+        // Reception de la taille du fichier
+        int sizeFile = Integer.parseInt(in.readLine());
+        System.out.println("Taille du fichier : " + sizeFile + " byte(s)");
 
-        int filesize = 15123; // Send file size in separate msg
-        int read = 1;
-        int totalRead = 0;
-        int remaining = filesize;
-        while(read > 0) {
-            System.out.println(read);
-            totalRead += read;
-            remaining -= read;
-            System.out.println("read " + totalRead + " bytes.");
-            fos.write(buffer, 0, read);
-            read = dis.read(buffer, 0, Math.min(buffer.length, remaining));
-        }
+        // Création du buffer à l'aide de la taille du fichier
+        byte[] buffer = new byte[sizeFile];
 
-        fos.close();
-        dis.close();
-        clientSocket = serverSocket.accept();
+        // Lecture de chaque bit envoyer par le server et le stocker dans le tableau
+        InputStream is = clientSocket.getInputStream();
+        is.read(buffer, 0, buffer.length);
+
+        // Une fois l'ensemble des bytes envoyés
+        // Ecriture de l'ensemble du buffer dans le nouveau fichier
+        FileOutputStream outFile = new FileOutputStream(file);
+        outFile.write(buffer, 0, buffer.length);
+
+        // Fermeture des fluxs concernant le fichier
+        outFile.flush();
+        is.close();
+
         System.out.println("Succès de l'enrengitrement du fichier.");
     }
 
     public void sendFile() throws IOException {
+        // Nom du fichier à envoyer au client
         String nameFile = in.readLine();
         System.out.println("Envoie du fichier " + nameFile + " au client.");
 
+        // Ouverture du flux concernant le fichier
         FileInputStream fis = new FileInputStream(DEFAULT_DIRECTION_FOLDER + nameFile);
-        byte[] buffer = new byte[20000];
+
+        // Envoie au client la taille du fichier
+        int sizeFile = (int)fis.getChannel().size();
+        System.out.println("Taille du fichier " + sizeFile + " bytes");
+        out.println(sizeFile);
+
+        // Création du buffer à l'aide de la taille du fichier
+        byte[] buffer = new byte[sizeFile];
+
+        // Lecture de chaque bit dans le fichier et le stocker dans le tableau
         fis.read(buffer, 0 , buffer.length);
 
-        OutputStream out = clientSocket.getOutputStream();
-        out.write(buffer, 0, buffer.length);
+        // Envoie de chaque byte dans le buffer au client
+        OutputStream outData = clientSocket.getOutputStream();
+        outData.write(buffer, 0, buffer.length);
 
-        out.close();
+        outData.flush();
         fis.close();
 
-        //clientSocket = serverSocket.accept();
         System.out.println("Succès de l'envoie du fichier.");
+        //clientSocket = serverSocket.accept();
     }
 
     public static void main(String[] args) throws IOException {
@@ -95,31 +111,33 @@ public class FTPServer {
         while(true){
             // Gestion des 3 commandes et l'arrêt du serveur
             System.out.println("Attente d'une requête client");
+
+            server.out.flush();
             String cmd = server.in.readLine();
 
             switch (cmd){
                 case "GET_FILE":{
-                    server.sendFile();  break;
+                    server.sendFile();
+                    break;
                 }
 
                 case "PUT_FILE":{
-                    server.saveFile();  break;
+                    server.saveFile();
+                    break;
                 }
                 case "LS_DIR":{
                     System.out.println("Affichage des fichiers dans la racine server.");
                     String [] pathnames;
                     File readerPath = new File(server.getDirFolder());
                     pathnames = readerPath.list();
-                    System.out.print("["+ server.DEFAULT_DIRECTION_FOLDER + "\\$] ");
+
                     String files = "";
                     for (String pathname : pathnames) {
-                        System.out.print(pathname + "\t");
-                        files += pathname + " ";
+                        files += pathname + "\t";
                     }
-
-                    server.out.println(files);
                     server.out.flush();
-                    System.out.println();
+                    server.out.println(files);
+                    System.out.println(files);
                     break;
                 }
 
@@ -128,6 +146,9 @@ public class FTPServer {
                     System.exit(1);
                 }
             }
+            server.out.flush();
+
+            //server.clientSocket = server.serverSocket.accept();
         }
 
     }
