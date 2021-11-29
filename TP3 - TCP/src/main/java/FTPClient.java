@@ -29,7 +29,7 @@ public class FTPClient {
         String nameFile = readCommand();
 
         // Envoie du nom du fichier au server pour l'enrengistrer
-        out.println(nameFile);
+        out.write(nameFile);
 
         // Création du nom du fichier
         File file = new File(DEFAULT_DIRECTION_FOLDER + nameFile);
@@ -64,7 +64,7 @@ public class FTPClient {
         System.out.println("Nom du fichier à envoyer au server.");
         String nameFile = readCommand();
         System.out.println("Envoie du fichier " + nameFile + " au client.");
-        out.println(nameFile);
+        out.write(nameFile);
 
         // Ouverture du flux concernant le fichier
         FileInputStream fis = new FileInputStream(DEFAULT_DIRECTION_FOLDER + nameFile);

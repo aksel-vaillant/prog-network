@@ -107,13 +107,14 @@ public class FTPServer {
         server.start(6666);
 
         System.out.println("Démarrage du serveur");
-
+        int i = 0;
         while(true){
             // Gestion des 3 commandes et l'arrêt du serveur
             System.out.println("Attente d'une requête client");
 
             server.out.flush();
             String cmd = server.in.readLine();
+            System.out.println("Commande " + i + "\t" +cmd);
 
             switch (cmd){
                 case "GET_FILE":{
@@ -149,7 +150,9 @@ public class FTPServer {
             server.out.flush();
 
             //server.clientSocket = server.serverSocket.accept();
+            i++;
         }
+
 
     }
 }
