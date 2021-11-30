@@ -22,6 +22,11 @@ public class FTPServer {
     private PrintWriter out;
     private BufferedReader in;
 
+    private InputStream is;
+    private OutputStream os;
+    private FileInputStream fis;
+    private FileOutputStream fos;
+
     private String dirFolder;
     private final String DEFAULT_DIRECTION_FOLDER = "*à remplir avec un double \\ à la fin*";
 
@@ -37,11 +42,19 @@ public class FTPServer {
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+        is = clientSocket.getInputStream();
+        os = clientSocket.getOutputStream();
+
         setDirFolder(DEFAULT_DIRECTION_FOLDER);
     }
 
     public void stop() throws IOException {
         System.out.println("Arrêt du serveur et du système.");
+        is.close();
+        os.close();
+        fis.close();
+        fos.close();
         in.close();
         out.close();
         clientSocket.close();
@@ -65,17 +78,17 @@ public class FTPServer {
         byte[] buffer = new byte[sizeFile];
 
         // Lecture de chaque bit envoyer par le server et le stocker dans le tableau
-        InputStream is = clientSocket.getInputStream();
+        is = clientSocket.getInputStream();
         is.read(buffer, 0, buffer.length);
 
         // Une fois l'ensemble des octets envoyés
         // Écriture de l'ensemble du buffer dans le nouveau fichier
-        FileOutputStream outFile = new FileOutputStream(file);
-        outFile.write(buffer, 0, buffer.length);
+        fos = new FileOutputStream(file);
+        fos.write(buffer, 0, buffer.length);
 
         // Fermeture des flux concernant le fichier
-        outFile.flush();
-        is.close();
+        fos.flush();
+        //is.reset();
 
         System.out.println("Succès de l'enregistrement du fichier.");
     }
@@ -86,7 +99,7 @@ public class FTPServer {
         System.out.println("Envoie du fichier " + nameFile + " au client.");
 
         // Ouverture du flux concernant le fichier
-        FileInputStream fis = new FileInputStream(DEFAULT_DIRECTION_FOLDER + nameFile);
+        fis = new FileInputStream(DEFAULT_DIRECTION_FOLDER + nameFile);
 
         // Envoie au client la taille du fichier
         int sizeFile = (int)fis.getChannel().size();
@@ -100,11 +113,11 @@ public class FTPServer {
         fis.read(buffer, 0 , buffer.length);
 
         // Envoi de chaque octet dans le buffer au client
-        OutputStream outData = clientSocket.getOutputStream();
-        outData.write(buffer, 0, buffer.length);
+        os = clientSocket.getOutputStream();
+        os.write(buffer, 0, buffer.length);
 
-        outData.flush();
-        fis.close();
+        os.flush();
+        //fis.reset();
 
         System.out.println("Succès de l'envoie du fichier.");
     }

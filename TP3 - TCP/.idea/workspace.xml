@@ -5,18 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a4a81e2-b117-4c8b-8186-9bb5469fd45e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/FTPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FTPClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/FTPServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FTPServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/CLIENT_DIR/1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/CLIENT_DIR/2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/FTPClientTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/CLIENT_DIR/1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/CLIENT_DIR/1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/CLIENT_DIR/2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/CLIENT_DIR/1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/SERVEUR_DIR/1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/CLIENT_DIR/1.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/FTPClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FTPClient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/FTPServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/FTPServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/FTPClientTest.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,6 +145,7 @@
       <workItem from="1637780527428" duration="10739000" />
       <workItem from="1638205273139" duration="788000" />
       <workItem from="1638212496046" duration="5257000" />
+      <workItem from="1638299024643" duration="1597000" />
     </task>
     <servers />
   </component>
