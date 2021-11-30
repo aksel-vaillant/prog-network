@@ -1,17 +1,3 @@
-/*
- *   Programme réalisé par Aksel Vaillant sous Maven/Intelij et jdk 1.8
- *
- *   Pour faire fonctionner le programme, il faut préalablement remplir le DEFAULT_DIRECTION_FOLDER
- *   qui contient les fichiers serveur. Dans le main, il faut ainsi, créer l'objet FTPServer pour
- *   commencer à lancer le serveur. Les diverses commandes s'effectuent correctement avec le client
- *   cependant, il y a encore des problèmes de socket non résolus qui empêche le bon déroulement
- *   du programme suite à des fermetures inattendus.
- *
- *   Egalement, le choix de ne pas vouloir split la commande en plusieurs sous parties est voulu pour
- *   une expérience plus compréhensible.
- *
- */
-
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
