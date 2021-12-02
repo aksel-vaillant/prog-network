@@ -1,11 +1,6 @@
-import java.awt.event.KeyEvent;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.util.Arrays;
-import java.util.Scanner;
 
 public class FTPServer {
     private ServerSocket serverSocket;
@@ -13,9 +8,13 @@ public class FTPServer {
     private PrintWriter out;
     private BufferedReader in;
 
+    private InputStream is;
+    private OutputStream os;
+    private FileInputStream fis;
+    private FileOutputStream fos;
+
     private String dirFolder;
-    //private final String DEFAULT_DIRECTION_FOLDER = "C:\\Users\\aksel\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR\\";
-    private final String DEFAULT_DIRECTION_FOLDER = "H:\\Home\\Documents\\GitHub\\prog-network\\TP3 - TCP\\src\\main\\resources\\SERVEUR_DIR\\";
+    private final String DEFAULT_DIRECTION_FOLDER = "*à remplir avec un double \\ à la fin*";
 
     public String getDirFolder() {
         return dirFolder;
@@ -29,11 +28,19 @@ public class FTPServer {
         clientSocket = serverSocket.accept();
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+
+        is = clientSocket.getInputStream();
+        os = clientSocket.getOutputStream();
+
         setDirFolder(DEFAULT_DIRECTION_FOLDER);
     }
 
     public void stop() throws IOException {
         System.out.println("Arrêt du serveur et du système.");
+        is.close();
+        os.close();
+        fis.close();
+        fos.close();
         in.close();
         out.close();
         clientSocket.close();
@@ -47,29 +54,29 @@ public class FTPServer {
         // Création du nom du fichier
         File file = new File(DEFAULT_DIRECTION_FOLDER + nameFile);
 
-        System.out.println("Enrengistrement du fichier " + nameFile + " en cours.");
+        System.out.println("Enregistrement du fichier " + nameFile + " en cours.");
 
         // Reception de la taille du fichier
         int sizeFile = Integer.parseInt(in.readLine());
-        System.out.println("Taille du fichier : " + sizeFile + " byte(s)");
+        System.out.println("Taille du fichier : " + (sizeFile+1) + " octets");
 
         // Création du buffer à l'aide de la taille du fichier
         byte[] buffer = new byte[sizeFile];
 
         // Lecture de chaque bit envoyer par le server et le stocker dans le tableau
-        InputStream is = clientSocket.getInputStream();
+        is = clientSocket.getInputStream();
         is.read(buffer, 0, buffer.length);
 
-        // Une fois l'ensemble des bytes envoyés
-        // Ecriture de l'ensemble du buffer dans le nouveau fichier
-        FileOutputStream outFile = new FileOutputStream(file);
-        outFile.write(buffer, 0, buffer.length);
+        // Une fois l'ensemble des octets envoyés
+        // Écriture de l'ensemble du buffer dans le nouveau fichier
+        fos = new FileOutputStream(file);
+        fos.write(buffer, 0, buffer.length);
 
-        // Fermeture des fluxs concernant le fichier
-        outFile.flush();
-        is.close();
+        // Fermeture des flux concernant le fichier
+        fos.flush();
+        //is.reset();
 
-        System.out.println("Succès de l'enrengitrement du fichier.");
+        System.out.println("Succès de l'enregistrement du fichier.");
     }
 
     public void sendFile() throws IOException {
@@ -78,11 +85,11 @@ public class FTPServer {
         System.out.println("Envoie du fichier " + nameFile + " au client.");
 
         // Ouverture du flux concernant le fichier
-        FileInputStream fis = new FileInputStream(DEFAULT_DIRECTION_FOLDER + nameFile);
+        fis = new FileInputStream(DEFAULT_DIRECTION_FOLDER + nameFile);
 
         // Envoie au client la taille du fichier
         int sizeFile = (int)fis.getChannel().size();
-        System.out.println("Taille du fichier " + sizeFile + " bytes");
+        System.out.println("Taille du fichier " + sizeFile + " octets");
         out.println(sizeFile);
 
         // Création du buffer à l'aide de la taille du fichier
@@ -91,37 +98,34 @@ public class FTPServer {
         // Lecture de chaque bit dans le fichier et le stocker dans le tableau
         fis.read(buffer, 0 , buffer.length);
 
-        // Envoie de chaque byte dans le buffer au client
-        OutputStream outData = clientSocket.getOutputStream();
-        outData.write(buffer, 0, buffer.length);
+        // Envoi de chaque octet dans le buffer au client
+        os = clientSocket.getOutputStream();
+        os.write(buffer, 0, buffer.length);
 
-        outData.flush();
-        fis.close();
+        os.flush();
+        //fis.reset();
 
         System.out.println("Succès de l'envoie du fichier.");
-        //clientSocket = serverSocket.accept();
     }
 
     public static void main(String[] args) throws IOException {
+        // Création du serveur FTP avec choix du port
         FTPServer server=new FTPServer();
         server.start(6666);
 
         System.out.println("Démarrage du serveur");
-        int i = 0;
         while(true){
             // Gestion des 3 commandes et l'arrêt du serveur
             System.out.println("Attente d'une requête client");
 
             server.out.flush();
             String cmd = server.in.readLine();
-            System.out.println("Commande " + i + "\t" +cmd);
 
             switch (cmd){
                 case "GET_FILE":{
                     server.sendFile();
                     break;
                 }
-
                 case "PUT_FILE":{
                     server.saveFile();
                     break;
@@ -141,18 +145,11 @@ public class FTPServer {
                     System.out.println(files);
                     break;
                 }
-
                 case "STOP":{
                     server.stop();
                     System.exit(1);
                 }
             }
-            server.out.flush();
-
-            //server.clientSocket = server.serverSocket.accept();
-            i++;
         }
-
-
     }
 }
