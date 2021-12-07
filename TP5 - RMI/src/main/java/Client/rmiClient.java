@@ -12,10 +12,11 @@ import jdk.internal.util.xml.XMLStreamException;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 public class rmiClient {
 
-	public static void main(String[] args) throws IOException, NotBoundException, XMLStreamException, javax.xml.stream.XMLStreamException, ParserConfigurationException, SAXException {
+	public static void main(String[] args) throws IOException, NotBoundException, XMLStreamException, javax.xml.stream.XMLStreamException, ParserConfigurationException, SAXException, TransformerException {
 		// Locate the Registry
 		Registry reg = LocateRegistry.getRegistry(args[0],Integer.parseInt(args[1]));
 
@@ -46,8 +47,15 @@ public class rmiClient {
 				System.out.println(xmlODI.userExist(result[1], result[2]));
 			}
 			else if(result[0].equalsIgnoreCase("STOP")){
-				System.out.println("Arret du client");
+				System.out.println("Arrêt du client");
 				System.exit(-1);
+			}
+			else if(result[0].equalsIgnoreCase("HELP")){
+				System.out.println("ADD nom_client mdp_client\t\tPermet d'ajouter un utilisateur");
+				System.out.println("REMOVE nom_client\t\t\t\tPermet de supprimer un utilisateur");
+				System.out.println("P_EXIST nom_client\t\t\t\tPermet de tester l'existence d'un pseudo dans la BDD");
+				System.out.println("U_EXIST nom_client mdp_client\tPermet de tester l'existence d'un utilisateur dans la BDD");
+				System.out.println("STOP\t\t\t\t\t\t\tArrêt du client et de la communication server");
 			}
 			else{
 				System.out.println("Commande inconnu");

@@ -1,1 +1,7 @@
-<clients><client><pseudo>aksel</pseudo><mdp>client</mdp></client></clients>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<clients>
+        <client>
+                <pseudo>test</pseudo>
+                <mdp>te</mdp>
+        </client>
+</clients>
