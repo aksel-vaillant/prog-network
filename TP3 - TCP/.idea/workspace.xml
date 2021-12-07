@@ -4,26 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a4a81e2-b117-4c8b-8186-9bb5469fd45e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/FTPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FTPClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/FTPServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FTPServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/CLIENT_DIR/1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/CLIENT_DIR/test.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/CLIENT_DIR/testclient.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/FTPClient.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/FTPServer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/SERVEUR_DIR/1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/SERVEUR_DIR/2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/SERVEUR_DIR/3.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/tp-ftpserver-1.0-SNAPSHOT.jar" beforeDir="false" />
-    </list>
+    <list default="true" id="9a4a81e2-b117-4c8b-8186-9bb5469fd45e" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -73,17 +54,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Compound.TP">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="FTPClient" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="FTPClient" />
       <module name="tp-ftpserver" />
@@ -158,6 +128,7 @@
       <workItem from="1638205273139" duration="788000" />
       <workItem from="1638212496046" duration="5257000" />
       <workItem from="1638299024643" duration="3083000" />
+      <workItem from="1638531453827" duration="271000" />
     </task>
     <servers />
   </component>
@@ -177,7 +148,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/TP3___TCP$FTPClient.ic" NAME="FTPClient Coverage Results" MODIFIED="1637706838961" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/TP3___TCP$FTPServer.ic" NAME="FTPServer Coverage Results" MODIFIED="1637706837744" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/TP3___TCP$FTPClient.ic" NAME="FTPClient Coverage Results" MODIFIED="1637706838961" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

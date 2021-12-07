@@ -1,0 +1,4 @@
+Serveur\rmiServeur.class
+common\XmlOperationsI.class
+Serveur\XmlOperations.class
+Client\rmiClient.class
