@@ -17,23 +17,23 @@ import javax.xml.transform.TransformerException;
 public class rmiClient {
 
 	public static void main(String[] args) throws IOException, NotBoundException, XMLStreamException, javax.xml.stream.XMLStreamException, ParserConfigurationException, SAXException, TransformerException {
-		// Locate the Registry
+		// Localisation du registry
 		Registry reg = LocateRegistry.getRegistry(args[0],Integer.parseInt(args[1]));
 
-		// Link to the Registry
+		// Récupérer l'objet permettant de réaliser les opérations
 		XmlOperationsI xmlODI = (XmlOperationsI) reg.lookup("xmlOP");
+		System.out.println("OD=" + xmlODI);
 
-		// Create a Scanner object
 		Scanner scan = new Scanner(System.in);
-
-		//System.out.println("OD=" + xmlODI);
-		//System.out.println(xmlODI.addUser("kais","mdp"));
 
 		while(true){
 			System.out.println("Enter commands");
-			String cmds = scan.nextLine();  				// Read commands input
-			String[] result = cmds.split(" ");		// Split datas
 
+			// Récupération des commandes et des informations dans un tableau
+			String cmds = scan.nextLine();
+			String[] result = cmds.split(" ");
+
+			// Vérification de la commande et de la validité de toutes les informations
 			if(result[0].equalsIgnoreCase("ADD") && result.length==3){
 				System.out.println(xmlODI.addUser(result[1],result[2]));
 			}

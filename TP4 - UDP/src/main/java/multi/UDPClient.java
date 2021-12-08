@@ -11,18 +11,14 @@ public class UDPClient {
     private int port;
     private String address;
 
-    private Scanner in;
-
     public UDPClient(String address, int port) throws SocketException {
         setPort(port);
         setAddress(address);
 
         socket = new DatagramSocket();
-        inetSockAddress = new InetSocketAddress(address, port);
-
         socket.setSoTimeout(20);
 
-        in = new Scanner(System.in);
+        inetSockAddress = new InetSocketAddress(address, port);
     }
 
     public int getPort() {
@@ -40,16 +36,11 @@ public class UDPClient {
 
     public static void main(String[] args) throws IOException {
         UDPClient client = new UDPClient("localhost", 8796);
-        boolean running = true;
+        Scanner in = new Scanner(System.in);
 
-        while(running == true){
+        while(true){
             System.out.println("Entrez un nombre");
-            long num = client.in.nextLong();
-
-            if(num == 0){
-                System.out.println("Arrêt du client.");
-                running = false;
-            }
+            long num = in.nextLong();
 
             // Conversion entre long et bytes
             byte[] buf = ByteUtils.longToBytes(num);
@@ -57,6 +48,16 @@ public class UDPClient {
             // Envoie des données au serveur
             DatagramPacket packet = new DatagramPacket(buf, buf.length, InetAddress.getByName(client.getAddress()), client.getPort());
             client.socket.send(packet);
+
+            // Si on envoie 0, on se prépare à reçevoir une donnée sur la somme
+            if(num == 0){
+                client.socket.receive(packet);
+                // Conversion inverse entre bytes et long
+                long sum = ByteUtils.bytesToLong(packet.getData());
+                System.out.println("Somme du client... " + sum);
+                System.out.println("Arrêt du client.");
+                System.exit(-1);
+            }
         }
     }
 }

@@ -7,19 +7,23 @@ public class UDPServer extends Thread{
     private DatagramSocket socket;
     private int port;
 
-    long sum = 0;
-    byte[] buf = new byte[8];
-
     public UDPServer(int port) throws SocketException {
-        this.port = port;
+        setPort(port);
         socket = new DatagramSocket(port);
     }
 
-    public void run() {
-        boolean running = true;
+    public void setPort(int port){
+        this.port = port;
+    }
 
-        while (running) {
-            DatagramPacket packet = new DatagramPacket(buf, buf.length);
+    public void run() {
+        long sum = 0;
+        byte[] buf = new byte[8];
+
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+        while (true) {
+            System.out.println("Attente de reception d'un paquet.");
 
             try {
                 socket.receive(packet);
@@ -27,13 +31,25 @@ public class UDPServer extends Thread{
                 e.printStackTrace();
             }
 
-            if(ByteUtils.bytesToLong(packet.getData()) != 0){
-                System.out.print(sum + "+" + ByteUtils.bytesToLong(packet.getData()));
-                sum += ByteUtils.bytesToLong(packet.getData());
-                System.out.println("=" + sum);
+            long newNum = ByteUtils.bytesToLong(packet.getData());
+            System.out.println("Du client " + packet.getPort() + "... " + newNum);
+
+            sum += newNum;
+            if(newNum == 0){
+                buf = ByteUtils.longToBytes(sum);
+
+                InetSocketAddress isa = new InetSocketAddress(packet.getAddress().getHostAddress(), packet.getPort());
+                DatagramPacket newPacket = new DatagramPacket(buf, buf.length, isa);
+                try {
+                    socket.send(newPacket);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Envoie de la somme au client... " + sum);
+                System.out.println("Arrêt du serveur");
+                System.exit(-1);
             }
         }
-        socket.close();
     }
 
     public static void main(String[] args) throws SocketException {

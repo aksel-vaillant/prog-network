@@ -50,6 +50,8 @@ public class XmlOperations extends UnicastRemoteObject implements XmlOperationsI
 
 	public String addUser(String pseudo, String mdp) throws IOException, ParserConfigurationException, SAXException, TransformerException {
 		if(!this.userExist(pseudo, mdp)){
+			// Création d'un document
+
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document document = dBuilder.newDocument();
@@ -57,6 +59,7 @@ public class XmlOperations extends UnicastRemoteObject implements XmlOperationsI
 			String[] userData = new String[]{pseudo, mdp};
 			data.add(userData);
 
+			// Utilisation de DOM : création d'objet
 			Element racine = document.createElement("clients");
 			for(int i=0; i< data.size();i++){
 				Element newClient = document.createElement("client");
@@ -74,27 +77,23 @@ public class XmlOperations extends UnicastRemoteObject implements XmlOperationsI
 			}
 			document.appendChild(racine);
 
-			// create the xml file
-			//transform the DOM Object to an XML File
+			// Création du fichier XML
+			// Transformer les objets DOM en fichier XML
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 
-
+			// DOMSource est le document que l'on vient de créer en DOM
 			DOMSource domSource = new DOMSource(document);
+			// StreamResult est le document que l'on souhaite avoir en XML
 			StreamResult streamResult = new StreamResult(new File(pathname));
 
-			// If you use
-			// StreamResult result = new StreamResult(System.out);
-			// the output will be pushed to the standard output ...
-			// You can use that for debugging
-
+			// Paramétrages de la transformation avec l'indentation, l'encodage, etc
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");							// Auto indent
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");						// Encode with UTF-8
 			transformer.setOutputProperty(OutputPropertiesFactory.S_KEY_INDENT_AMOUNT, "8");	// Indent amount
 
+			// Transformation du document
 			transformer.transform(domSource, streamResult);
-
-			System.out.println("Done creating XML File");
 
 			return "Utilisateur ajouté";
 		}
@@ -102,7 +101,7 @@ public class XmlOperations extends UnicastRemoteObject implements XmlOperationsI
 	}
 	public String removeUser(String pseudo) throws IOException, javax.xml.stream.XMLStreamException, ParserConfigurationException, SAXException, TransformerException {
 		if(this.pseudoExist(pseudo)){
-			// Remove User from data
+			// Suppression de l'user
 			if(data.size() > 1){
 				for (int i = 0; i < data.size(); i++) {
 					if (data.get(i)[0].equals(pseudo)) {
@@ -113,6 +112,7 @@ public class XmlOperations extends UnicastRemoteObject implements XmlOperationsI
 				data.remove(data.size() - 1);
 				this.addUser(userData[0], userData[1]);
 			}else{
+				// S'il n'y a plus d'user, on supprime le document
 				File xmlFile = new File(pathname);
 				xmlFile.delete();
 			}

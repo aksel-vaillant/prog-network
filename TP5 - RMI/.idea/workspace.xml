@@ -5,18 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="313b4bed-3209-4528-8c7f-136c84268518" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TP3 - TCP/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../TP3 - TCP/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../TP4 - UDP/.idea/runConfigurations.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../TP4 - UDP/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/src/main/java/mono/UDPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TP4 - UDP/src/main/java/mono/UDPClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/src/main/java/mono/UDPServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TP4 - UDP/src/main/java/mono/UDPServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/src/main/java/multi/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TP4 - UDP/src/main/java/multi/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/src/main/java/multi/UDPClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TP4 - UDP/src/main/java/multi/UDPClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/src/main/java/multi/UDPServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TP4 - UDP/src/main/java/multi/UDPServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/target/classes/ByteUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/target/classes/UDPClient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/target/classes/UDPServer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/target/surefire-reports/TEST-UDPTest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/target/surefire-reports/UDPTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TP4 - UDP/target/tp4_udp-1.0-SNAPSHOT.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientsTest.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Client/rmiClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/rmiClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Serveur/XmlOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Serveur/XmlOperations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/common/XmlOperationsI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/common/XmlOperationsI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/clients.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Client/rmiClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Client/rmiClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Serveur/XmlOperations.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Serveur/XmlOperations.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/clients.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/clients.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/common/XmlOperationsI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/common/XmlOperationsI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Client/rmiClient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Serveur/XmlOperations.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Serveur/rmiServeur.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/clients.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/common/XmlOperationsI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/tp5_rmi-1.0-SNAPSHOT.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,6 +134,8 @@
       <updated>1638866716915</updated>
       <workItem from="1638866724241" duration="9584000" />
       <workItem from="1638908682055" duration="8882000" />
+      <workItem from="1638999225313" duration="564000" />
+      <workItem from="1638999857654" duration="5000" />
     </task>
     <servers />
   </component>
@@ -131,6 +152,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
